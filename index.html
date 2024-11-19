@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThoughtTales - Stories That Matter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #F8F9FA; /* Light Gray Background */
+            color: #333; /* Dark Text */
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(90deg, #4e73df, #1cc88a); /* Gradient: Blue to Green */
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 4px solid #ddd;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.5em;
+        }
+
+        header button {
+            background-color: #FF5733; /* Bold Orange for New Post */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        header button:hover {
+            background-color: #C70039; /* Darker Orange */
+        }
+
+        /* Blog Posts Section */
+        .blog-container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .blog-post {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .blog-post:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .blog-post img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-post .content {
+            padding: 20px;
+        }
+
+        .blog-post h3 {
+            color: #1cc88a; /* Green */
+            font-size: 1.6em;
+            margin-bottom: 15px;
+        }
+
+        .blog-post p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .btns {
+            margin-top: 20px;
+        }
+
+        .btns button {
+            background: #1cc88a;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btns .delete {
+            background: #FF5733; /* Red for Delete */
+        }
+
+        .btns button:hover {
+            opacity: 0.8;
+        }
+
+        .btns .share {
+            background: #007bff; /* Blue for Share */
+        }
+
+        /* Modal for Add/Edit Post */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+        }
+
+        #modal .modal-content {
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        #modal input,
+        #modal textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #modal button {
+            background-color: #FF5733;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #1cc88a; /* Green Footer */
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .blog-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>ThoughtTales</h1>
+        <p>Unleash Your Stories, One Thought at a Time</p>
+        <button id="new-post-btn">Create New Post</button>
+    </header>
+
+    <!-- Blog Posts -->
+    <section class="blog-container" id="blog-posts">
+        <!-- Sample Blog Posts -->
+        <div class="blog-post">
+            <img src="https://via.placeholder.com/400x200?text=Sample+Blog+Image" alt="Blog Image">
+            <div class="content">
+                <h3>The Power of Positivity</h3>
+                <p>In a world full of challenges, staying positive can often be the key to overcoming obstacles...</p>
+                <div class="btns">
+                    <button onclick="editPost(0)">Edit</button>
+                    <button onclick="deletePost(0)" class="delete">Delete</button>
+                    <button onclick="sharePost(0)" class="share">Share</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="blog-post">
+            <img src="https://via.placeholder.com/400x200?text=Sample+Blog+Image" alt="Blog Image">
+            <div class="content">
+                <h3>Life Lessons from Travel</h3>
+                <p>Traveling opens up your mind, teaches you humility, and shows you that the world is much bigger than your little corner...</p>
+                <div class="btns">
+                    <button onclick="editPost(1)">Edit</button>
+                    <button onclick="deletePost(1)" class="delete">Delete</button>
+                    <button onclick="sharePost(1)" class="share">Share</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="blog-post">
+            <img src="https://via.placeholder.com/400x200?text=Sample+Blog+Image" alt="Blog Image">
+            <div class="content">
+                <h3>Mindfulness in Everyday Life</h3>
+                <p>In the hustle and bustle of daily life, it's easy to lose track of what really matters. Mindfulness helps us live in the moment...</p>
+                <div class="btns">
+                    <button onclick="editPost(2)">Edit</button>
+                    <button onclick="deletePost(2)" class="delete">Delete</button>
+                    <button onclick="sharePost(2)" class="share">Share</button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Modal for Add/Edit Post -->
+    <div id="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Create a New Post</h3>
+            <input type="text" id="post-title" placeholder="Enter Title">
+            <textarea id="post-content" rows="5" placeholder="Enter Content"></textarea>
+            <button id="save-post-btn">Save Post</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        © 2024 ThoughtTales | Crafted with 💙 for storytellers.
+    </footer>
+
+    <script>
+        let posts = [
+            { title: "The Power of Positivity", content: "In a world full of challenges, staying positive can often be the key to overcoming obstacles..." },
+            { title: "Life Lessons from Travel", content: "Traveling opens up your mind, teaches you humility, and shows you that the world is much bigger than your little corner..." },
+            { title: "Mindfulness in Everyday Life", content: "In the hustle and bustle of daily life, it's easy to lose track of what really matters. Mindfulness helps us live in the moment..." }
+        ];
+
+        let editingIndex = null; // To track which post is being edited
+
+        // DOM elements
+        const newPostBtn = document.getElementById("new-post-btn");
+        const modal = document.getElementById("modal");
+        const postTitleInput = document.getElementById("post-title");
+        const postContentInput = document.getElementById("post-content");
+        const savePostBtn = document.getElementById("save-post-btn");
+        const blogContainer = document.getElementById("blog-posts");
+
+        // Open modal for new post or editing post
+        newPostBtn.addEventListener("click", () => {
+            editingIndex = null;
+            postTitleInput.value = "";
+            postContentInput.value = "";
+            document.getElementById("modal-title").textContent = "Create a New Post";
+            modal.style.display = "flex";
+        });
+
+        savePostBtn.addEventListener("click", () => {
+            const title = postTitleInput.value;
+            const content = postContentInput.value;
+
+            if (editingIndex !== null) {
+                posts[editingIndex] = { title, content };
+            } else {
+                posts.push({ title, content });
+            }
+
+            modal.style.display = "none";
+            renderPosts();
+        });
+
+        // Render posts
+        function renderPosts() {
+            blogContainer.innerHTML = "";
+            posts.forEach((post, index) => {
+                const postElement = document.createElement("div");
+                postElement.classList.add("blog-post");
+
+                postElement.innerHTML = `
+                    <img src="https://via.placeholder.com/400x200?text=Sample+Blog+Image" alt="Blog Image">
+                    <div class="content">
+                        <h3>${post.title}</h3>
+                        <p>${post.content}</p>
+                        <div class="btns">
+                            <button onclick="editPost(${index})">Edit</button>
+                            <button onclick="deletePost(${index})" class="delete">Delete</button>
+                            <button onclick="sharePost(${index})" class="share">Share</button>
+                        </div>
+                    </div>
+                `;
+
+                blogContainer.appendChild(postElement);
+            });
+        }
+
+        // Edit post
+        function editPost(index) {
+            const post = posts[index];
+            editingIndex = index;
+            postTitleInput.value = post.title;
+            postContentInput.value = post.content;
+            document.getElementById("modal-title").textContent = "Edit Post";
+            modal.style.display = "flex";
+        }
+
+        // Delete post
+        function deletePost(index) {
+            posts.splice(index, 1);
+            renderPosts();
+        }
+
+        // Share post
+        function sharePost(index) {
+            alert(`Sharing post: ${posts[index].title}`);
+        }
+
+        // Initial render of posts
+        renderPosts();
+    </script>
+
+</body>
+</html>
